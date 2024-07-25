@@ -11,7 +11,7 @@ import {errorHandler, notFound} from "./middleware/errorMiddleware.js";
 
 dotenv.config();
 connectDB();
-// x();
+// piro loosu cutie
 const port = process.env.PORT || 5000;
 
 const app = express();
