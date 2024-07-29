@@ -10,4 +10,4 @@ const salesSchema = new mongoose.Schema({
   
   const Sales = mongoose.model('Sales', salesSchema);
   
-  export default User;
+  export default Sales;
