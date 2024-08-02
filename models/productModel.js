@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-// Product schema and model
 const productSchema = new mongoose.Schema({
     name: { type: String, required: true },
     image: { type: String, required: true },

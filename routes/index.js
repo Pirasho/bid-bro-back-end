@@ -17,7 +17,7 @@ router.use("/api/sales",salesRoutes );
 router.use("/api/customers",customerRoutes );
 router.use("/api/auction",auctionRoutes );
 router.use("/api/sellerbid",sellerbidRoutes );
-router.use("/api/sellerbid",sellerbidRoutes );
+
 
 
 
