@@ -420,37 +420,37 @@ const User = mongoose.model('User', userSchema);
 
 
 
-// Endpoint to get product count
-app.get('/api/productCount', async (req, res) => {
-  try {
-    const productCount = await Product.countDocuments();
-    res.json({ count: productCount });
-  } catch (error) {
-    console.error('Error fetching product count:', error);
-    res.status(500).json({ error: 'Failed to fetch product count' });
-  }
-});
+// // Endpoint to get product count
+// app.get('/api/productCount', async (req, res) => {
+//   try {
+//     const productCount = await Product.countDocuments();
+//     res.json({ count: productCount });
+//   } catch (error) {
+//     console.error('Error fetching product count:', error);
+//     res.status(500).json({ error: 'Failed to fetch product count' });
+//   }
+// });
 
 
 
-// Endpoint to get sellers count
-app.get('/api/sellersCount', async (req, res) => {
-  try {
-    const sellersCount = await Seller.countDocuments();
-    res.json({ count: sellersCount });
-  } catch (error) {
-    console.error('Error fetching sellers count:', error);
-    res.status(500).json({ error: 'Failed to fetch sellers count' });
-  }
-});
+// // Endpoint to get sellers count
+// app.get('/api/sellersCount', async (req, res) => {
+//   try {
+//     const sellersCount = await Seller.countDocuments();
+//     res.json({ count: sellersCount });
+//   } catch (error) {
+//     console.error('Error fetching sellers count:', error);
+//     res.status(500).json({ error: 'Failed to fetch sellers count' });
+//   }
+// });
 
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Internal Server Error');
-});
+// // Error handling middleware
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).send('Internal Server Error');
+// });
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server is running on port ${port}`);
+// });
