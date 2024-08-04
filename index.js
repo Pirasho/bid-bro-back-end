@@ -6,9 +6,6 @@ import connectDB from "./config/db.js";
 import routes from "./routes/index.js";
 import {errorHandler, notFound} from "./middleware/errorMiddleware.js";
 
-
-
-
 dotenv.config();
 connectDB();
 

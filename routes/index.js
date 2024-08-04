@@ -7,7 +7,6 @@ import  auctionRoutes  from "./auctionRoutes.js";
 import  sellerbidRoutes  from "./sellerbidRoutes.js";
 
 
-
 const router = express.Router();
 
 
@@ -18,10 +17,5 @@ router.use("/api/customers",customerRoutes );
 router.use("/api/auction",auctionRoutes );
 router.use("/api/sellerbid",sellerbidRoutes );
 
-
-
-
-
-
-
 export default router;
+
