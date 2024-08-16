@@ -10,6 +10,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
         res.status(500).json({ error: error.message  });
       }
   });
+
 const getProductById = asyncHandler(async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -22,6 +23,7 @@ const getProductById = asyncHandler(async (req, res) => {
     res.status(500).json({ error: error.message});
   }
   });
+
 const postAllProducts = asyncHandler(async (req, res) => {
   try {
     const product = new Product(req.body);
@@ -34,7 +36,6 @@ const postAllProducts = asyncHandler(async (req, res) => {
     }
     res.status(500).json({ error: error.message  });
   }
-
 });
 
 const putProductById = asyncHandler(async (req, res) => {
@@ -65,12 +66,7 @@ const deleteProductById = asyncHandler(async (req, res) => {
   }
   });
 
-
-
   
-
-
-
   export {
 
     getAllProduct ,

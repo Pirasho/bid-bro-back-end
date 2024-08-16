@@ -5,6 +5,8 @@ import  salesRoutes  from "./salesRoutes.js";
 import  customerRoutes  from "./customerRoutes.js";
 import  auctionRoutes  from "./auctionRoutes.js";
 import  sellerbidRoutes  from "./sellerbidRoutes.js";
+import  ratingformRoutes  from "./ratingformRoutes.js";
+
 
 
 const router = express.Router();
@@ -16,6 +18,7 @@ router.use("/api/sales",salesRoutes );
 router.use("/api/customers",customerRoutes );
 router.use("/api/auction",auctionRoutes );
 router.use("/api/sellerbid",sellerbidRoutes );
+router.use("/api/reviewwrite",ratingformRoutes );
 
 export default router;
 

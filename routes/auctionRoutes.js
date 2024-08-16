@@ -4,8 +4,6 @@ import { getAllAuction, getAuctionById, postAllAuction } from '../controllers/au
 const router = express.Router();
 
 router.post('/post', postAllAuction);
-
-
 router.get('/get' , getAllAuction );
 router.get('/id/:id', getAuctionById);
 

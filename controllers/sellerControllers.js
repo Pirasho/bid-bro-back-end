@@ -85,22 +85,10 @@ const deletesellerById = asyncHandler(async (req, res) => {
       }
 });
 
-
-
-
-
-
-
-
-
-
 export {
-
     getAllseller,
     getsellerById,
     postAllseller,
     putsellerById ,
     deletesellerById
-
-
 }
