@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Auction from "../models/auctionModels.js";
-// Create a new auction
+
 const postAllAuction = asyncHandler(async (req, res) => {
     try {
         const newAuction = new Auction(req.body);
@@ -11,6 +11,8 @@ const postAllAuction = asyncHandler(async (req, res) => {
     }
 });
 
+
+
 const getAllAuction = asyncHandler(async (req, res) => {
     try {
         const auctions = await Auction.find();
@@ -20,7 +22,6 @@ const getAllAuction = asyncHandler(async (req, res) => {
     }
 });
 
-// Get an auction by ID
 const getAuctionById = asyncHandler(async (req, res) => {
     try {
         const auction = await Auction.findById(req.params.id);
@@ -29,7 +30,6 @@ const getAuctionById = asyncHandler(async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-
 });
 
 export {

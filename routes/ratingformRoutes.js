@@ -1,24 +1,21 @@
 import express from 'express';
-import { getAllreviews, postAllReview } from '../controllers/ratingformControllers';
-
-
-const router=express.Router();
-
-
-router.get('/get' ,getAllreviews  );
-router.post('/post' ,postAllReview  );
-// router.get('/id/:id' , getProductById );
-
-
-export default router;
-
-// routes/index.js
-const express = require('express');
-const { postReview } = require('../controllers/reviewController');
+import { getAllReview, postAllReview } from '../controllers/ratingformControllers.js';  // Ensure .js is included
 
 const router = express.Router();
 
-// POST route to handle review submission
-router.post('/review', postReview);
+router.get('/get', getAllReview);
+router.post('/post', postAllReview);
 
-module.exports = router;
+export default router;
+
+
+// routes/index.js
+// const express = require('express');
+// const { postReview } = require('../controllers/reviewController');
+
+// const router = express.Router();
+
+// // POST route to handle review submission
+// router.post('/review', postReview);
+
+// module.exports = router;

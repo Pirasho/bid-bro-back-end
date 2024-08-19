@@ -17,7 +17,7 @@ import { registerUser, loginUser } from '../controllers/customregisterController
 
 const router = express.Router();
 
-router.post('/post', registerUser);
-router.post('/login', loginUser);
+// router.post('/post', registerUser);
+// router.post('/login', loginUser);
 
 export default router;

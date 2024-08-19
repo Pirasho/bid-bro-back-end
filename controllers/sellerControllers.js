@@ -26,32 +26,19 @@ const getsellerById = asyncHandler(async (req, res) => {
 const postAllseller = asyncHandler(async (req, res) => {
     try {
         const { name, email, telephone, address, nic } = req.body;
-
-        // Log the incoming request body
         console.log("Incoming request body:", req.body);
-
-        // Check for missing fields
         if (!name || !email || !telephone || !address || !nic) {
             return res.status(400).json({ error: "All fields are required" });
         }
-
-        // Create a new seller
         const seller = new Seller({ name, email, telephone, address, nic });
         await seller.save();
-
-        // Log successful save
         console.log("Seller added successfully:", seller);
-
         res.status(201).json(seller);
     } catch (error) {
-        // Log detailed error
         console.error("Error adding seller:", error);
-
-        // Return specific error message
         if (error.name === 'ValidationError') {
             return res.status(400).json({ error: error.message });
         }
-
         res.status(500).json({ error: "Internal server error" });
     }
 });
