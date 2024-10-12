@@ -1,44 +1,77 @@
-// app.post('/api/register', async (req, res) => {
-//     const { name, email, phone, address, city, country, zip, password } = req.body;
-//     console.log('Registration Details:', req.body);
-//     if (!name || !email || !phone || !address || !city || !country || !zip || !password) {
-//         return res.status(400).json({ error: 'Please fill in all fields' });
-//     }
-//     try {
-//         const existingCustomer = await Customer.findOne({ email });
-//         if (existingCustomer) {
-//             return res.status(400).json({ error: 'Email already registered' });
-//         }
-//         const newCustomer = new Customer({ name, email, phone, address, city, country, zip, password });
-//         await newCustomer.save();
-//         res.status(201).json({ message: 'Registration successful' });
-//     } catch (error) {
-//         console.error("Error during registration:", error.message || error); // Detailed error logging
-//         if (error.code === 11000) {
-//             return res.status(400).json({ error: 'Duplicate key error' });
-//         }
-//         res.status(500).json({ error: 'Internal server error', details: error.message });
-//     }
+// import CustomRegister from '../models/customregisterModels.js';
+// const getUserDetails = asyncHandler(async (req, res) => {
+//     const { id } = req.body;
+//     const userdetails = await CustomRegister.findOne({_id:id });
+//     console.log(userdetails);
+    
+//         // res.status(401).json({ message: 'Invalid email or password' });
+//         // throw new Error('Invalid email or password');
+
 // });
 
-// Define the sign-in route
-app.post('/api/signin', async (req, res) => {
-    const { email, password } = req.body;
-    if (!email || !password) {
-        return res.status(400).json({ error: 'Please fill in all fields' });
-    }
-    try {
-        const user = await Customer.findOne({ email });
-        if (!user) {
-            return res.status(401).json({ error: 'Invalid email or password' });
-        }
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) {
-            return res.status(401).json({ error: 'Invalid email or password' });
-        }
-        res.status(200).json({ message: 'Sign in successful' });
-    } catch (error) {
-        console.error('Error during sign-in:', error);
-        res.status(500).json({ error: 'Internal server error' });
+
+// export {
+//     getUserDetails,
+// }
+
+import asyncHandler from "express-async-handler";
+import CustomRegister from '../models/customregisterModels.js';
+
+// Get user details by ID
+const getUserDetails = asyncHandler(async (req, res) => {
+    const { id } = req.params; 
+    console.log('id'+id);
+    
+    const userdetails = await CustomRegister.findById(id);
+
+    if (userdetails) {
+        res.json(userdetails);
+    } else {
+        res.status(404);
+        throw new Error('User not found');
     }
 });
+
+// Update user details
+const updateUserDetails = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+    const { name, email, phone, address, city, zip,country,profileimage} = req.body; 
+console.log('id'+id);
+
+    // Find user by ID
+    const user = await CustomRegister.findById(id);
+
+    if (user) {
+        
+        user.name = name || user.name;
+        user.email = email || user.email;
+        user.phone = phone || user.phone;
+        user.address = address || user.address;
+        user.city = city || user.city;
+        user.zip = zip || user.zip;
+        user.country= country || user.country;
+        user.profileimage = profileimage || user.profileimage;
+
+
+        const updatedUser = await user.save(); 
+
+        res.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            phone: updatedUser.phone,
+            address: updatedUser.address,
+            city: updatedUser.city,
+            zipCode: updatedUser.zipCode,
+            profileimage:updatedUser.profileimage,
+        });
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
+});
+
+export {
+    getUserDetails,
+    updateUserDetails,
+};

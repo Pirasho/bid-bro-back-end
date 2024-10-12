@@ -6,6 +6,7 @@ const auctionSchema = new mongoose.Schema(
     expectedPrice: { type: Number, required: true },
     noOfUnits: { type: Number, required: true },
     description: { type: String },
+    customerId:{ type:String, required: true },
   },
   { timestamps: true }
 );
