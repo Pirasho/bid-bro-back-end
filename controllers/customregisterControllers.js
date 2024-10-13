@@ -1,24 +1,3 @@
-// import asyncHandler from "express-async-handler";
-// import Customregister from "../models/customregisterModels";
-
-// // const SellerBid = require('../models/sellerbidsModel');
-
-// // Get all seller bids
-// const postAllcustomregister = asyncHandler (async (req, res) => {
-//     try {
-//         const sellersCount = await Seller.countDocuments();
-//         res.json({ count: sellersCount });
-//       } catch (error) {
-//         console.error('Error fetching sellers count:', error);
-//         res.status(500).json({ error: 'Failed to fetch sellers count' });
-//       }
-// });
-
-
-// export {
-//     postAllcustomregister
-// }
-
 import asyncHandler from 'express-async-handler';
 import CustomRegister from '../models/customregisterModels.js';
 import bcrypt from "bcryptjs";

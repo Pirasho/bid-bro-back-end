@@ -12,8 +12,9 @@ const SellerbidSchema = new mongoose.Schema({
   warrantymonths: { type: Number, required: true },
   total: { type: Number, required: true },
   specialnote: { type: String , required: true },
-  city: { type: String , required: true }
-  
+  city: { type: String , required: true },
+  auctionid: { type: String },
+  customerId: { type: String },
 });
 
 
