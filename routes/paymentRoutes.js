@@ -1,9 +1,10 @@
-import express from "express";
-import {payHereHash} from "../controllers/paymentControllers";
+import express from 'express';
+import { payHereHash } from '../controllers/paymentControllers.js';
+
+const router=express.Router();
 
 
-const router = express.Router();
+router.post('/payment-hah' , payHereHash );
 
-router.route('/payment-hash'),post(payHereHash);
 
 export default router;
