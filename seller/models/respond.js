@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const respondSchema = mongoose.Schema({
+import mongoose from 'mongoose';
 
+const respondSchema = new mongoose.Schema({
     product: {
         type: String,
         required: true
@@ -40,8 +40,7 @@ const respondSchema = mongoose.Schema({
     note: {
         type: String,
         required: true
-    },
-    
+    }
 });
 
-module.exports = mongoose.model('Respond', respondSchema);
+export default mongoose.model('Respond', respondSchema);
