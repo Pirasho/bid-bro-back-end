@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
-const mybidSchema = mongoose.Schema({
+import mongoose from 'mongoose';
 
-    image:{
-        data:Buffer,
-        contentType:String
+const mybidSchema = new mongoose.Schema({
+    image: {
+        data: Buffer,
+        contentType: String
     },
     product: {
         type: String,
@@ -28,8 +28,7 @@ const mybidSchema = mongoose.Schema({
     date: {
         type: String,
         required: true
-    },
-    
+    }
 });
 
-module.exports = mongoose.model('mybid', mybidSchema);
+export default mongoose.model('mybid', mybidSchema);
