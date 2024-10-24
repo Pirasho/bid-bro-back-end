@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from "mongoose";
 const respondSchema = mongoose.Schema({
 
     product: {
@@ -44,4 +44,6 @@ const respondSchema = mongoose.Schema({
     
 });
 
-module.exports = mongoose.model('Respond', respondSchema);
+const Respond = mongoose.model("Respond", respondSchema);
+  
+export default Respond;

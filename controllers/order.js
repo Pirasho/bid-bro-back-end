@@ -1,8 +1,9 @@
-const OrderModel = require('../models/order');
-const multer = require('multer');
-const fs = require("fs");
+import asyncHandler from "express-async-handler";
+import OrderModel from "../models/order.js";
+import multer from 'multer';
+import fs from 'fs';
 
-
+// Multer storage setup
 const Storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "uploads");
@@ -14,16 +15,17 @@ const Storage = multer.diskStorage({
 
 const upload = multer({
     storage: Storage
-}).single('Image')
+}).single('Image');
 
-
-exports.postOrder = async (req, res) => {
-    upload(req, res, (err) => {
+// Add a new order
+const postOrder = asyncHandler(async (req, res) => {
+    upload(req, res, async (err) => {
         if (err) {
-            console.log(err)
+            console.error("Error uploading file:", err);
+            return res.status(500).json({ error: "File upload failed", details: err });
         }
-        else {
-            const newBid = new OrderModel({
+        try {
+            const newOrder = new OrderModel({
                 image: {
                     data: fs.readFileSync('uploads/' + req.file.filename),
                     contentType: 'image/png',
@@ -37,16 +39,29 @@ exports.postOrder = async (req, res) => {
                 mrp: req.body.mrp,
                 sellp: req.body.sellp,
                 date: req.body.date,
-            })
-            newBid.save()
-                .then(() => res.send('successfully uploaded'))
-                .catch((err) => console.log(err));
+            });
+
+            await newOrder.save();
+            res.status(201).json(newOrder);
+        } catch (error) {
+            console.error("Error saving order:", error);
+            res.status(500).json({ error: "Internal server error", details: error.message });
         }
     });
-};
+});
 
-exports.getOrder = async (req, res) => {
-    const blogs = await OrderModel.find();
-    res.json(blogs);
-};
+// Get all orders
+const getOrder = asyncHandler(async (req, res) => {
+    try {
+        const orders = await OrderModel.find();
+        res.status(200).json(orders);
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
 
+export {
+    postOrder,
+    getOrder
+};

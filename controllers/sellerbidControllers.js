@@ -51,10 +51,11 @@ const getSellerbidBysellerbidId = asyncHandler(async (req, res) => {
 const postAllSellerbid = asyncHandler(async (req, res) => {
     try {
         // Extract specific fields (sellerName, price, savings, deliveryCharge) from req.body
-        const { sellerName, bidprice, mrp, saving, deliveryCharge, warrantymonths, auctionid, specialnote, city } = req.body;
+        const { sellerName, bidprice, warrantymonths, specialnote ,auctionid} = req.body;
+        console.log(auctionid,"auctioniddd")
         const auction = await Auction.findById(auctionid);
-        let total = (parseFloat(auction.noOfUnits) * parseFloat(bidprice)) + (parseFloat(deliveryCharge));
-        const newBid = new Sellerbid({ sellerName, bidprice, mrp, saving, deliveryCharge, warrantymonths, total, specialnote, city });
+        let total = (parseFloat(auction.noOfUnits) * parseFloat(bidprice));
+        const newBid = new Sellerbid({ sellerName, bidprice, warrantymonths, specialnote, total  });
         await newBid.save();
         res.status(201).json(newBid); // Send the created bid object in the response
     } catch (error) {

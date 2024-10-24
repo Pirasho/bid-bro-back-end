@@ -1,4 +1,5 @@
-const mongoose = require('mongoose')
+
+import mongoose from "mongoose";
 const availableSchema = mongoose.Schema({
 
     image:{
@@ -28,4 +29,6 @@ const availableSchema = mongoose.Schema({
     
 });
 
-module.exports = mongoose.model('available', availableSchema);
+const Available = mongoose.model("available", availableSchema);
+  
+export default Available;

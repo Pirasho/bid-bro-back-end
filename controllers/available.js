@@ -1,8 +1,9 @@
-const AvailableModel = require('../models/available');
-const multer = require('multer');
-const fs = require("fs");
+import asyncHandler from "express-async-handler";
+import AvailableModel from '../models/available.js';
+import multer from 'multer';
+import fs from 'fs';
 
-
+// Define multer storage configuration
 const Storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, "uploads");
@@ -12,18 +13,20 @@ const Storage = multer.diskStorage({
     },
 });
 
+// Configure multer for single file upload
 const upload = multer({
     storage: Storage
-}).single('Image')
+}).single('Image');
 
-
-exports.postAvailable = async (req, res) => {
-    upload(req, res, (err) => {
+// Add a new available product
+export const postAvailable = asyncHandler(async (req, res) => {
+    upload(req, res, async (err) => {
         if (err) {
-            console.log(err)
+            console.error("Error uploading file:", err);
+            return res.status(500).json({ error: "File upload failed", details: err });
         }
-        else {
-            const newBid = new AvailableModel({
+        try {
+            const newAvailable = new AvailableModel({
                 image: {
                     data: fs.readFileSync('uploads/' + req.file.filename),
                     contentType: 'image/png',
@@ -33,16 +36,24 @@ exports.postAvailable = async (req, res) => {
                 model: req.body.model,
                 version: req.body.version,
                 color: req.body.color
-            })
-            newBid.save()
-                .then(() => res.send('successfully uploaded'))
-                .catch((err) => console.log(err));
+            });
+
+            await newAvailable.save();
+            res.status(201).json({ message: 'Successfully uploaded', available: newAvailable });
+        } catch (error) {
+            console.error("Error saving available product:", error);
+            res.status(500).json({ error: "Internal server error", details: error.message });
         }
     });
-};
+});
 
-exports.getAvailable = async (req, res) => {
-    const blogs = await AvailableModel.find();
-    res.json(blogs);
-};
-
+// Get all available products
+export const getAvailable = asyncHandler(async (req, res) => {
+    try {
+        const availableProducts = await AvailableModel.find();
+        res.status(200).json(availableProducts);
+    } catch (error) {
+        console.error("Error fetching available products:", error);
+        res.status(500).json({ error: "Internal server error" });
+    }
+});
