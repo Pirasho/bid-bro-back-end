@@ -8,6 +8,7 @@ import  sellerbidRoutes  from "./sellerbidRoutes.js";
 import  ratingformRoutes  from "./ratingformRoutes.js";
 import  customregisterRoutes  from "./customregisterRoutes.js";
 import  userRoutes  from "./userRoutes.js";
+import paymentRoutes from "./paymentRoutes.js"
 
 
 const router = express.Router();
@@ -22,6 +23,7 @@ router.use("/api/sellerbid",sellerbidRoutes );
 router.use("/api/review", ratingformRoutes);
 router.use("/api", customregisterRoutes);
 router.use("/api", userRoutes);
+router.use("/api/pay", paymentRoutes);
 
 export default router;
 
