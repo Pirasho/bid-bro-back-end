@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
-const OrderSchema = mongoose.Schema({
+import mongoose from 'mongoose';
 
-    image:{
-        data:Buffer,
-        contentType:String
+const OrderSchema = new mongoose.Schema({
+    image: {
+        data: Buffer,
+        contentType: String
     },
     product: {
         type: String,
@@ -40,8 +40,7 @@ const OrderSchema = mongoose.Schema({
     date: {
         type: String,
         required: true
-    },
-    
+    }
 });
 
-module.exports = mongoose.model('order', OrderSchema);
+export default mongoose.model('order', OrderSchema);
