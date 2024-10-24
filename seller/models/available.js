@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
-const availableSchema = mongoose.Schema({
+import mongoose from 'mongoose';
 
-    image:{
-        data:Buffer,
-        contentType:String
+const availableSchema = new mongoose.Schema({
+    image: {
+        data: Buffer,
+        contentType: String
     },
     product: {
         type: String,
@@ -25,7 +25,6 @@ const availableSchema = mongoose.Schema({
         type: String,
         required: true
     }
-    
 });
 
-module.exports = mongoose.model('available', availableSchema);
+export default mongoose.model('available', availableSchema);
