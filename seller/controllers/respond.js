@@ -1,31 +1,34 @@
-const Respond = require('../models/respond');
+import Respond from '../models/respond.js';
 
-exports.postRespond = async (req, res) => {
-
-    const { product } = req.body;
-    const { model } = req.body;
-    const { version } = req.body;
-    const { color } = req.body;
-    const { mrp} = req.body;
-    const { sellp } = req.body;
-    const { period } = req.body;
-    const { type } = req.body;
-    const { discount } = req.body;
-    const { note } = req.body;
+export const postRespond = async (req, res) => {
+    const { product, model, version, color, mrp, sellp, period, type, discount, note } = req.body;
 
     const blog = new Respond({
-        product, model,version, color,mrp, sellp, period, type, discount, note
-    });
-    
-    const createdBlog = await blog.save();
-    res.status(201).json({
-        blog: {
-            ...createdBlog._doc,
-        },
+        product,
+        model,
+        version,
+        color,
+        mrp,
+        sellp,
+        period,
+        type,
+        discount,
+        note,
     });
 
+    try {
+        const createdBlog = await blog.save();
+        res.status(201).json({
+            blog: {
+                ...createdBlog._doc,
+            },
+        });
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ message: 'Error saving to database' });
+    }
 };
 
-
-
-
+export default {
+    postRespond,
+};
