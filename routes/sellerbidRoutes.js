@@ -13,6 +13,6 @@ router.get('/auction/:id' , getSellerbidByauctionId );
 router.get('/auction/seller/:id' , getSellerbidBysellerbidId);
 router.put('/auction/seller/status/:id' , updateSellerBidWithCustomerId);
 router.get('/orderhistory/:id' , getOrderhistroyWithCustomerId);
-router.get('/orderhistoryone/:id' , getOrderhistroyOneWithCustomerId);
+router.get('/orderhistoryone/:id/:seller_id' , getOrderhistroyOneWithCustomerId);
 
 export default router;
