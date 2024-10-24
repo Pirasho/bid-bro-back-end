@@ -1,3 +1,4 @@
+//index.js
 import express from "express";
 import  productRoutes  from "./productRoutes.js";
 import  sellerRoutes  from "./sellerRoutes.js";
@@ -8,6 +9,7 @@ import  sellerbidRoutes  from "./sellerbidRoutes.js";
 import  ratingformRoutes  from "./ratingformRoutes.js";
 import  customregisterRoutes  from "./customregisterRoutes.js";
 import  userRoutes  from "./userRoutes.js";
+import  sellRoutes  from "./sellRoutes.js";
 
 
 const router = express.Router();
@@ -22,6 +24,7 @@ router.use("/api/sellerbid",sellerbidRoutes );
 router.use("/api/review", ratingformRoutes);
 router.use("/api", customregisterRoutes);
 router.use("/api", userRoutes);
+router.use("/api/sell", sellRoutes);
 
 export default router;
 
