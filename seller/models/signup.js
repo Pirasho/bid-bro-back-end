@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
-const signupSchema = mongoose.Schema({
+import mongoose from 'mongoose';
 
+const signupSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
@@ -25,11 +25,10 @@ const signupSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    document:{
-        data:Buffer,
-        contentType:String
-    },
-    
+    document: {
+        data: Buffer,
+        contentType: String
+    }
 });
 
-module.exports = mongoose.model('signup', signupSchema);
+export default mongoose.model('Signup', signupSchema);
