@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
-const receiptSchema = mongoose.Schema({
+import mongoose from 'mongoose';
 
-    image:{
-        data:Buffer,
-        contentType:String
+const receiptSchema = new mongoose.Schema({
+    image: {
+        data: Buffer,
+        contentType: String
     },
     product: {
         type: String,
@@ -36,8 +36,7 @@ const receiptSchema = mongoose.Schema({
     date: {
         type: String,
         required: true
-    },
-    
+    }
 });
 
-module.exports = mongoose.model('receipt', receiptSchema);
+export default mongoose.model('receipt', receiptSchema);
