@@ -1,7 +1,6 @@
-const ReceiptModel = require('../models/receipt');
-const multer = require('multer');
-const fs = require("fs");
-
+import ReceiptModel from '../models/receipt.js';  // Importing the ReceiptModel
+import multer from 'multer';  // Importing multer
+import fs from 'fs';  // Importing fs
 
 const Storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -14,38 +13,50 @@ const Storage = multer.diskStorage({
 
 const upload = multer({
     storage: Storage
-}).single('Image')
+}).single('Image');
 
-
-exports.postReceipt = async (req, res) => {
-    upload(req, res, (err) => {
+export const postReceipt = async (req, res) => {
+    upload(req, res, async (err) => {
         if (err) {
-            console.log(err)
-        }
-        else {
-            const newBid = new ReceiptModel({
-                image: {
-                    data: fs.readFileSync('uploads/' + req.file.filename),
-                    contentType: 'image/png',
-                },
-                product: req.body.product,
-                model: req.body.model,
-                version: req.body.version,
-                color: req.body.color,
-                sellp: req.body.sellp,
-                daddress: req.body.daddress,
-                dfees: req.body.dfees,
-                date: req.body.date
-            })
-            newBid.save()
-                .then(() => res.send('successfully uploaded'))
-                .catch((err) => console.log(err));
+            console.log(err);
+            return res.status(500).send('Error uploading file');
+        } else {
+            try {
+                const newReceipt = new ReceiptModel({
+                    image: {
+                        data: fs.readFileSync('uploads/' + req.file.filename),
+                        contentType: 'image/png',
+                    },
+                    product: req.body.product,
+                    model: req.body.model,
+                    version: req.body.version,
+                    color: req.body.color,
+                    sellp: req.body.sellp,
+                    daddress: req.body.daddress,
+                    dfees: req.body.dfees,
+                    date: req.body.date,
+                });
+                await newReceipt.save();
+                res.send('Successfully uploaded');
+            } catch (error) {
+                console.error('Database error:', error);
+                res.status(500).send('Error saving to database');
+            }
         }
     });
 };
 
-exports.getReceipt = async (req, res) => {
-    const blogs = await ReceiptModel.find();
-    res.json(blogs);
+export const getReceipt = async (req, res) => {
+    try {
+        const receipts = await ReceiptModel.find();
+        res.json(receipts);
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).send('Error retrieving receipts');
+    }
 };
 
+export default {
+    postReceipt,
+    getReceipt,
+};
