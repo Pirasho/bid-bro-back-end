@@ -40,7 +40,6 @@ app.use(express.urlencoded({extended: true}))
 app.use(routes);
 app.use(notFound);
 app.use(errorHandler);
-
 app.get('/', (req, res) => {
     res.send('Server is ready');
 });

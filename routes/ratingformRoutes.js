@@ -1,9 +1,10 @@
 import express from 'express';
-import { getAllReview, postAllReview } from '../controllers/ratingformControllers.js';  // Ensure .js is included
+import { getAllReview, getOneReview, postAllReview } from '../controllers/ratingformControllers.js';  // Ensure .js is included
 
 const router = express.Router();
 
 router.get('/get', getAllReview);
+router.get('/get/:id', getOneReview);
 router.post('/post', postAllReview);
 
 export default router;

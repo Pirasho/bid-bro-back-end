@@ -1,5 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Seller from "../models/sellerModel.js";
+import {uploadSellerImage} from '../middleware/imageupload.js'
+import bcrypt from "bcryptjs";
 
 const getAllseller = asyncHandler(async (req, res) => {
     try {
@@ -23,23 +25,51 @@ const getsellerById = asyncHandler(async (req, res) => {
     }
 });
 
+// Register a new user
 const postAllseller = asyncHandler(async (req, res) => {
-    try {
-        const { name, email, telephone, address, nic } = req.body;
-        console.log("Incoming request body:", req.body);
-        if (!name || !email || !telephone || !address || !nic) {
-            return res.status(400).json({ error: "All fields are required" });
-        }
-        const seller = new Seller({ name, email, telephone, address, nic });
-        await seller.save();
-        console.log("Seller added successfully:", seller);
-        res.status(201).json(seller);
-    } catch (error) {
-        console.error("Error adding seller:", error);
-        if (error.name === 'ValidationError') {
-            return res.status(400).json({ error: error.message });
-        }
-        res.status(500).json({ error: "Internal server error" });
+    const { name, email, phone, shop_address, city, country, shop_name, password,profileimage} = req.body;
+    const userExists = await Seller.findOne({ email });
+    console.log( req.body);
+    
+    if (userExists) {
+        res.status(400).json({ message: 'User already exists' });
+        throw new Error('User already exists');
+    }
+    const user = await Seller.create({ name, email, phone, shop_address, city, country, shop_name, password,profileimage});
+    await uploadSellerImage(req);
+    if (user) {
+        res.status(201).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            profileimage: `uploads/seller/${req.body.email}-profile.png`,
+            shop_name:user.shop_name
+        });
+    } else {
+        res.status(400).json({ message: 'Invalid user data' });
+        throw new Error('Invalid user data');
+    }
+});
+
+
+const loginSeller = asyncHandler(async (req, res) => {
+    const { email, password } = req.body;
+    const user = await Seller.findOne({ email });
+    console.log(user);
+    
+    if (user && user.password===password ) {
+            res.json({
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                profileUrl:`/uploads/seller/${user.email}-profile.png`,
+                shop_name:user.shop_name
+            });
+    } else {
+        res.status(401).json({ message: 'Invalid email or password' });
+        throw new Error('Invalid email or password');
     }
 });
 
@@ -77,5 +107,6 @@ export {
     getsellerById,
     postAllseller,
     putsellerById ,
-    deletesellerById
+    deletesellerById,
+    loginSeller
 }
