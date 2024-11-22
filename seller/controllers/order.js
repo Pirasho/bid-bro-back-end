@@ -1,7 +1,6 @@
-const OrderModel = require('../models/order');
-const multer = require('multer');
-const fs = require("fs");
-
+import OrderModel from '../models/order.js';  // Importing the OrderModel
+import fs from 'fs';  // Importing fs
+import multer from 'multer';  // Importing multer
 
 const Storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -14,39 +13,51 @@ const Storage = multer.diskStorage({
 
 const upload = multer({
     storage: Storage
-}).single('Image')
+}).single('Image');
 
-
-exports.postOrder = async (req, res) => {
-    upload(req, res, (err) => {
+export const postOrder = async (req, res) => {
+    upload(req, res, async (err) => {
         if (err) {
-            console.log(err)
-        }
-        else {
-            const newBid = new OrderModel({
-                image: {
-                    data: fs.readFileSync('uploads/' + req.file.filename),
-                    contentType: 'image/png',
-                },
-                product: req.body.product,
-                model: req.body.model,
-                version: req.body.version,
-                color: req.body.color,
-                cname: req.body.cname,
-                contact: req.body.contact,
-                mrp: req.body.mrp,
-                sellp: req.body.sellp,
-                date: req.body.date,
-            })
-            newBid.save()
-                .then(() => res.send('successfully uploaded'))
-                .catch((err) => console.log(err));
+            console.log(err);
+            return res.status(500).send('Error uploading file');
+        } else {
+            try {
+                const newOrder = new OrderModel({
+                    image: {
+                        data: fs.readFileSync('uploads/' + req.file.filename),
+                        contentType: 'image/png',
+                    },
+                    product: req.body.product,
+                    model: req.body.model,
+                    version: req.body.version,
+                    color: req.body.color,
+                    cname: req.body.cname,
+                    contact: req.body.contact,
+                    mrp: req.body.mrp,
+                    sellp: req.body.sellp,
+                    date: req.body.date,
+                });
+                await newOrder.save();
+                res.send('Successfully uploaded');
+            } catch (error) {
+                console.error('Database error:', error);
+                res.status(500).send('Error saving to database');
+            }
         }
     });
 };
 
-exports.getOrder = async (req, res) => {
-    const blogs = await OrderModel.find();
-    res.json(blogs);
+export const getOrder = async (req, res) => {
+    try {
+        const orders = await OrderModel.find();
+        res.json(orders);
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).send('Error retrieving orders');
+    }
 };
 
+export default {
+    postOrder,
+    getOrder,
+};
